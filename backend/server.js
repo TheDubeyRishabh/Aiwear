@@ -33,7 +33,19 @@ const app = express();
 
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL || "http://localhost:5173",
+    origin: function (origin, callback) {
+      const allowed = [
+        "http://localhost:5173",
+        "https://aiwear-lac.vercel.app",
+        "https://aiwear-git-main-rishabh-dubeys-projects-4ed3d44a.vercel.app",
+        "https://aiwear-crdg92d7j-rishabh-dubeys-projects-4ed3d44a.vercel.app",
+      ];
+      if (!origin || allowed.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   })
 );
